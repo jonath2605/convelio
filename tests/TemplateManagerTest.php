@@ -1,25 +1,38 @@
 <?php
 
-require_once __DIR__ . '/../src/Entity/Destination.php';
-require_once __DIR__ . '/../src/Entity/Quote.php';
-require_once __DIR__ . '/../src/Entity/Site.php';
-require_once __DIR__ . '/../src/Entity/Template.php';
-require_once __DIR__ . '/../src/Entity/User.php';
-require_once __DIR__ . '/../src/Helper/SingletonTrait.php';
-require_once __DIR__ . '/../src/Context/ApplicationContext.php';
-require_once __DIR__ . '/../src/Repository/Repository.php';
-require_once __DIR__ . '/../src/Repository/DestinationRepository.php';
-require_once __DIR__ . '/../src/Repository/QuoteRepository.php';
-require_once __DIR__ . '/../src/Repository/SiteRepository.php';
-require_once __DIR__ . '/../src/TemplateManager.php';
+namespace Tests;
 
-class TemplateManagerTest extends PHPUnit_Framework_TestCase
+use Convelio\Domain\Context\ApplicationContextInterface;
+use Convelio\Domain\Destination\Repository\DestinationRepositoryInterface;
+use Convelio\Domain\Quote\Entity\Quote;
+use Convelio\Domain\Template\Entity\Template;
+use Convelio\Domain\TemplateManager\Service\TemplateManager;
+use Convelio\Infrastructure\Context\ApplicationContext;
+use Convelio\Infrastructure\Destination\Repository\DestinationRepository;
+
+/**
+ * Class TemplateManagerTest
+ * @package Tests
+ */
+class TemplateManagerTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var ApplicationContextInterface
+     */
+    protected $applicationContext;
+
+    /**
+     * @var DestinationRepositoryInterface
+     */
+    protected $destinationRepository;
+
     /**
      * Init the mocks
      */
     public function setUp()
     {
+        $this->applicationContext = ApplicationContext::getInstance();
+        $this->destinationRepository = DestinationRepository::getInstance();
     }
 
     /**
@@ -37,10 +50,10 @@ class TemplateManagerTest extends PHPUnit_Framework_TestCase
         $faker = \Faker\Factory::create();
 
         $destinationId                  = $faker->randomNumber();
-        $expectedDestination = DestinationRepository::getInstance()->getById($destinationId);
-        $expectedUser        = ApplicationContext::getInstance()->getCurrentUser();
+        $expectedDestination = $this->destinationRepository->getById($destinationId);
+        $expectedUser        = $this->applicationContext->getCurrentUser();
 
-        $quote = new Quote($faker->randomNumber(), $faker->randomNumber(), $destinationId, $faker->date());
+        $quote = new Quote($faker->randomNumber(), $faker->randomNumber(), $destinationId, new \DateTime($faker->date()));
 
         $template = new Template(
             1,
@@ -63,15 +76,15 @@ L'équipe Convelio.com
             ]
         );
 
-        $this->assertEquals('Votre livraison à ' . $expectedDestination->countryName, $message->subject);
+        $this->assertEquals('Votre livraison à ' . $expectedDestination->getCountryName(), $message->getSubject());
         $this->assertEquals("
-Bonjour " . $expectedUser->firstname . ",
+Bonjour " . $expectedUser->getFirstname() . ",
 
-Merci de nous avoir contacté pour votre livraison à " . $expectedDestination->countryName . ".
+Merci de nous avoir contacté pour votre livraison à " . $expectedDestination->getCountryName() . ".
 
 Bien cordialement,
 
 L'équipe Convelio.com
-", $message->content);
+", $message->getContent());
     }
 }
