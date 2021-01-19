@@ -1,5 +1,7 @@
 <?php
 
+namespace Convelio\Domain\Helper;
+
 trait SingletonTrait
 {
     /**

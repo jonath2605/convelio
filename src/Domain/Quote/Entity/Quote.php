@@ -2,6 +2,8 @@
 
 namespace Convelio\Domain\Quote\Entity;
 
+use DateTime;
+
 /**
  * Class Quote
  * @package Convelio\Quote\Entity
@@ -24,7 +26,7 @@ class Quote
     protected $destinationId;
 
     /**
-     * @var string
+     * @var DateTime
      */
     protected $dateQuoted;
 
@@ -35,7 +37,7 @@ class Quote
      * @param int $destinationId
      * @param string $dateQuoted
      */
-    public function __construct(int $id, int $siteId, int $destinationId, string $dateQuoted)
+    public function __construct(int $id, int $siteId, int $destinationId, DateTime $dateQuoted)
     {
         $this->id = $id;
         $this->siteId = $siteId;
@@ -98,18 +100,18 @@ class Quote
     }
 
     /**
-     * @return string
+     * @return DateTime
      */
-    public function getDateQuoted(): string
+    public function getDateQuoted(): DateTime
     {
         return $this->dateQuoted;
     }
 
     /**
-     * @param string $dateQuoted
+     * @param DateTime $dateQuoted
      * @return $this
      */
-    public function setDateQuoted(string $dateQuoted): Quote
+    public function setDateQuoted(DateTime $dateQuoted): Quote
     {
         $this->dateQuoted = $dateQuoted;
         return $this;
