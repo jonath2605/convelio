@@ -1,6 +1,6 @@
 <?php
 
-namespace Convelio\Template\Entity;
+namespace Convelio\Domain\Template\Entity;
 
 /**
  * Class Template

@@ -1,6 +1,6 @@
 <?php
 
-namespace Convelio\Destination\Entity;
+namespace Convelio\Domain\Destination\Entity;
 
 /**
  * Class Destination

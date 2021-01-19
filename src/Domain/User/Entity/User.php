@@ -1,6 +1,6 @@
 <?php
 
-namespace Convelio\User\Entity;
+namespace Convelio\Domain\User\Entity;
 
 /**
  * Class User

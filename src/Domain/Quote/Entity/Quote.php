@@ -1,6 +1,6 @@
 <?php
 
-namespace Convelio\Quote\Entity;
+namespace Convelio\Domain\Quote\Entity;
 
 /**
  * Class Quote

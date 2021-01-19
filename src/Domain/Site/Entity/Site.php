@@ -1,6 +1,6 @@
 <?php
 
-namespace Convelio\Site\Entity;
+namespace Convelio\Domain\Site\Entity;
 
 /**
  * Class Site
