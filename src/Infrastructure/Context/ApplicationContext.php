@@ -1,6 +1,17 @@
 <?php
 
-class ApplicationContext
+namespace Convelio\Infrastructure\Context;
+
+use Convelio\Domain\Context\ApplicationContextInterface;
+use Convelio\Domain\Helper\SingletonTrait;
+use Convelio\Domain\Site\Entity\Site;
+use Convelio\Domain\User\Entity\User;
+
+/**
+ * Class ApplicationContext
+ * @package Convelio\Domain\Context
+ */
+class ApplicationContext implements ApplicationContextInterface
 {
     use SingletonTrait;
 
@@ -8,6 +19,7 @@ class ApplicationContext
      * @var Site
      */
     private $currentSite;
+
     /**
      * @var User
      */
@@ -20,12 +32,18 @@ class ApplicationContext
         $this->currentUser = new User($faker->randomNumber(), $faker->firstName, $faker->lastName, $faker->email);
     }
 
-    public function getCurrentSite()
+    /**
+     * @inheritDoc
+     */
+    public function getCurrentSite(): Site
     {
         return $this->currentSite;
     }
 
-    public function getCurrentUser()
+    /**
+     * @inheritDoc
+     */
+    public function getCurrentUser(): User
     {
         return $this->currentUser;
     }
